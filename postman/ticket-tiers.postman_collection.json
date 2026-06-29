@@ -1,0 +1,102 @@
+{
+  "info": {
+    "name": "Ticket Tiers API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8000/api"
+    },
+    {
+      "key": "token",
+      "value": ""
+    },
+    {
+      "key": "ticket_tier_id",
+      "value": "1"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "item": [
+    {
+      "name": "List ticket tiers",
+      "request": {
+        "method": "GET",
+        "url": "{{base_url}}/ticket-tiers?filter[channel]=web&include=event&per_page=15"
+      }
+    },
+    {
+      "name": "Create ticket tier",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"event_id\": 1,\n  \"name\": \"Early Bird\",\n  \"price\": 25.50,\n  \"quantity\": 100,\n  \"sales_channels\": [\"web\", \"box_office\"]\n}"
+        },
+        "url": "{{base_url}}/ticket-tiers"
+      }
+    },
+    {
+      "name": "Show ticket tier",
+      "request": {
+        "method": "GET",
+        "url": "{{base_url}}/ticket-tiers/{{ticket_tier_id}}"
+      }
+    },
+    {
+      "name": "Update ticket tier",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"VIP\",\n  \"price\": 100,\n  \"quantity\": 50,\n  \"sales_channels\": [\"web\"]\n}"
+        },
+        "url": "{{base_url}}/ticket-tiers/{{ticket_tier_id}}"
+      }
+    },
+    {
+      "name": "Publish ticket tier",
+      "request": {
+        "method": "POST",
+        "url": "{{base_url}}/ticket-tiers/{{ticket_tier_id}}/publish"
+      }
+    },
+    {
+      "name": "Delete ticket tier",
+      "request": {
+        "method": "DELETE",
+        "url": "{{base_url}}/ticket-tiers/{{ticket_tier_id}}"
+      }
+    }
+  ]
+}
