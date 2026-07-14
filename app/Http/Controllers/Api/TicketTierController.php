@@ -53,7 +53,7 @@ class TicketTierController extends Controller
 
             return (new MutationResource(
                 new TicketTierResource($ticketTier),
-                __('Ticket tier created successfully.')
+                __('ticket_tiers.created')
             ))->response()->setStatusCode(201);
         } catch (ValidationException $exception) {
             DB::rollBack();
@@ -63,7 +63,7 @@ class TicketTierController extends Controller
             DB::rollBack();
             Log::error('Failed to create ticket tier.', ['exception' => $exception]);
 
-            throw new HttpException(500, __('Unable to create ticket tier.'), $exception);
+            throw new HttpException(500, __('ticket_tiers.create_failed'), $exception);
         }
     }
 
@@ -87,7 +87,7 @@ class TicketTierController extends Controller
 
             return new MutationResource(
                 new TicketTierResource($ticketTier),
-                __('Ticket tier updated successfully.')
+                __('ticket_tiers.updated')
             );
         } catch (ValidationException $exception) {
             DB::rollBack();
@@ -97,7 +97,7 @@ class TicketTierController extends Controller
             DB::rollBack();
             Log::error('Failed to update ticket tier.', ['exception' => $exception]);
 
-            throw new HttpException(500, __('Unable to update ticket tier.'), $exception);
+            throw new HttpException(500, __('ticket_tiers.update_failed'), $exception);
         }
     }
 
@@ -114,7 +114,7 @@ class TicketTierController extends Controller
 
             DB::commit();
 
-            return new MutationResource($resource, __('Ticket tier deleted successfully.'));
+            return new MutationResource($resource, __('ticket_tiers.deleted'));
         } catch (ValidationException $exception) {
             DB::rollBack();
 
@@ -123,7 +123,7 @@ class TicketTierController extends Controller
             DB::rollBack();
             Log::error('Failed to delete ticket tier.', ['exception' => $exception]);
 
-            throw new HttpException(500, __('Unable to delete ticket tier.'), $exception);
+            throw new HttpException(500, __('ticket_tiers.delete_failed'), $exception);
         }
     }
 
@@ -140,7 +140,7 @@ class TicketTierController extends Controller
 
             return new MutationResource(
                 new TicketTierResource($ticketTier),
-                __('Ticket tier published successfully.')
+                __('ticket_tiers.published')
             );
         } catch (ValidationException $exception) {
             DB::rollBack();
@@ -150,7 +150,7 @@ class TicketTierController extends Controller
             DB::rollBack();
             Log::error('Failed to publish ticket tier.', ['exception' => $exception]);
 
-            throw new HttpException(500, __('Unable to publish ticket tier.'), $exception);
+            throw new HttpException(500, __('ticket_tiers.publish_failed'), $exception);
         }
     }
 

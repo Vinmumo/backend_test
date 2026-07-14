@@ -55,3 +55,7 @@ Index supports:
 ## Postman
 
 Import `postman/ticket-tiers.postman_collection.json`.
+
+## Localization
+
+All user-facing controller messages are keyed strings resolved through `__('ticket_tiers.*')`, backed by real translation files at `lang/en/ticket_tiers.php` and `lang/sw/ticket_tiers.php`. Set `APP_LOCALE=sw` (or call `App::setLocale('sw')`) to see the Swahili responses.
