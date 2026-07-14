@@ -23,6 +23,31 @@ beforeEach(function (): void {
     $this->user->givePermissionTo($permissions);
 });
 
+it('forbids a user without ticket tier permissions from every action', function (): void {
+    $outsider = User::factory()->create();
+    $ticketTier = TicketTier::factory()->create();
+
+    $this->actingAs($outsider)->getJson('/api/ticket-tiers')->assertForbidden();
+    $this->actingAs($outsider)->postJson('/api/ticket-tiers', [
+        'event_id' => $ticketTier->event_id,
+        'name' => 'Outsider Tier',
+        'price' => 10,
+        'quantity' => 1,
+    ])->assertForbidden();
+    $this->actingAs($outsider)->getJson("/api/ticket-tiers/{$ticketTier->id}")->assertForbidden();
+    $this->actingAs($outsider)->patchJson("/api/ticket-tiers/{$ticketTier->id}", [
+        'name' => 'Renamed',
+    ])->assertForbidden();
+    $this->actingAs($outsider)->deleteJson("/api/ticket-tiers/{$ticketTier->id}")->assertForbidden();
+    $this->actingAs($outsider)->postJson("/api/ticket-tiers/{$ticketTier->id}/publish")->assertForbidden();
+
+    $this->assertDatabaseHas('ticket_tiers', [
+        'id' => $ticketTier->id,
+        'name' => $ticketTier->name,
+        'is_published' => false,
+    ]);
+});
+
 it('stores a ticket tier', function (): void {
     $event = Event::factory()->create();
 
