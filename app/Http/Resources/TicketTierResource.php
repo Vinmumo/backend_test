@@ -25,10 +25,7 @@ class TicketTierResource extends JsonResource
             'is_active' => $this->whenHas('is_active'),
             'created_at' => $this->whenHas('created_at'),
             'updated_at' => $this->whenHas('updated_at'),
-            'event' => $this->whenLoaded('event', fn () => [
-                'id' => $this->event->id,
-                'name' => $this->event->name,
-            ]),
+            'event' => $this->whenLoaded('event', fn () => new EventResource($this->event)),
         ];
     }
 }
